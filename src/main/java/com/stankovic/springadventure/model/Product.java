@@ -1,36 +1,33 @@
 package com.stankovic.springadventure.model;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Getter(value = AccessLevel.PUBLIC) @Setter @NoArgsConstructor
-@Builder
-@Data
+@Entity(name = "products") // --> table name
 public class Product {
 	
-	public Product(String id, String name, String category) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.category = category;
-	}
-	public Product() {
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	
-	private String id;
 	private String name;
 	private String category;
 	
+	public Product() {
+	}
 	
-	public String getId() {
+	public Product(String name, String category) {
+		this.name = name;
+		this.category = category;
+	}
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -46,7 +43,4 @@ public class Product {
 		this.category = category;
 	}
 	
-	
-	
-
 }

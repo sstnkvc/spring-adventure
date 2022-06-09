@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stankovic.springadventure.exceptions.ProductNotFoundException;
 import com.stankovic.springadventure.model.Product;
 import com.stankovic.springadventure.rest.service.ProductService;
 
@@ -27,8 +28,8 @@ public class ProductApiController {
 	}
 	
 	@GetMapping("/products/{pId}")
-	public Product getProduct(@PathVariable(name = "pId") String id) {
-		return productService.getProduct(id);
+	public Product getProduct(@PathVariable(name = "pId") Long id) {
+		return productService.getProduct(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 	
 	@PostMapping("products")
@@ -37,13 +38,13 @@ public class ProductApiController {
 	}
 	
 	
-	@PutMapping("products/{id}")
-	public void overwriteProduct(@PathVariable(name = "id") String id, @RequestBody Product p) {
-		this.productService.overwriteProductOnIndex(id, p);
+	@PutMapping("products")
+	public void overwriteProduct(@RequestBody Product p) {
+		this.productService.updateProduct(p);
 	}
 	
 	@DeleteMapping("products/{id}")
-	public void deleteProduct(@PathVariable(name = "id") String id) {
+	public void deleteProduct(@PathVariable(name = "id") Long id) {
 		this.productService.deleteProduct(id);
 	}
 	
